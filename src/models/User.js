@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const { TEST_EMAIL } = require('../utils/regexp');
+const mongoose = require('mongoose')
+const { TEST_EMAIL } = require('../utils/regexp')
 
 const UserSchema = new mongoose.Schema({
   email: {
@@ -30,6 +30,6 @@ const UserSchema = new mongoose.Schema({
     trim: true,
     required: [true, 'Please provide lastName field'],
   },
-});
+})
 
-module.exports = mongoose.model('User', UserSchema);
+module.exports = mongoose.model('User', UserSchema)

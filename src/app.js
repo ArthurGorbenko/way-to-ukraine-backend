@@ -1,23 +1,25 @@
-const express = require('express');
-const connectDB = require('./config/db');
+const express = require('express')
+const cors = require('cors')
+const connectDB = require('./config/db')
 
 // routes
-const authRouter = require('./routes/auth');
-const userRouter = require('./routes/user');
+const authRouter = require('./routes/auth')
+const userRouter = require('./routes/user')
 
-const app = express();
+const app = express()
 
 if (process.env.NODE_ENV !== 'test') {
-  connectDB();
+  connectDB()
+  app.use(cors())
 }
 
-app.get('/', (req, res) => res.send('Hello world!'));
+app.get('/', (req, res) => res.send('Hello world!'))
 
 // default middlewares
-app.use(express.json());
+app.use(express.json())
 
 // routes use
-app.use('/auth', authRouter);
-app.use('/user', userRouter);
+app.use('/auth', authRouter)
+app.use('/user', userRouter)
 
-module.exports = app;
+module.exports = app

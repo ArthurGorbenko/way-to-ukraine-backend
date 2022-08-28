@@ -7,10 +7,11 @@
     "start": "nodemon server.js",
     "pretest": "export NODE_ENV=test, DEBUG=jest-mongodb:*",
     "test": "jest --runInBand",
-    "prelint": "prettier --write .",
+    "prelint": "prettier --config .prettierrc.js --write .",
     "lint": "eslint --fix ."
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.18.1",
     "mongoose": "^6.5.2"
   },

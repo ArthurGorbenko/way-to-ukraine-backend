@@ -5,7 +5,7 @@ module.exports = {
     es2021: true,
     jest: true,
   },
-  extends: ['airbnb-base', 'plugin:node/recommended'],
+  extends: ['airbnb-base', 'plugin:node/recommended', 'prettier'],
   overrides: [],
   parserOptions: {
     ecmaVersion: 'latest',
@@ -20,4 +20,4 @@ module.exports = {
     ],
     'node/no-unpublished-require': 'off',
   },
-};
+}
