@@ -26,7 +26,7 @@ const dropCollections = async () => {
   if (mongo) {
     const collections = await mongoose.connection.db.collections()
     for (const collection of collections) {
-      promises.push(collection.remove())
+      promises.push(collection.deleteMany())
     }
   }
   return Promise.all(promises)

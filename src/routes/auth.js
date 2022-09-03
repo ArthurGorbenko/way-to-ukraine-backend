@@ -2,9 +2,9 @@ const express = require('express')
 
 const router = express.Router()
 
-router.post('/login', (req, res) => {
-  res.send('Login')
-})
+const { login } = require('../controllers/auth')
+
+router.post('/login', login)
 
 router.get('/logout', (req, res) => {
   res.send('Me')

@@ -19,5 +19,7 @@ module.exports = {
       'WithStatement',
     ],
     'node/no-unpublished-require': 'off',
+    'func-names': 'off',
+    'consistent-return': 'off',
   },
 }

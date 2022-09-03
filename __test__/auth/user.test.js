@@ -1,6 +1,9 @@
 const request = require('supertest')
 const app = require('../../src/app')
 const { connectDB, dropDB, dropCollections } = require('../db-test')
+const { TEST_REGISTER_FIELDS } = require('../../src/utils/regexp')
+const { TEST_USER } = require('../config')
+const { login } = require('../fixtures')
 
 beforeAll(async () => {
   await connectDB()
@@ -19,21 +22,19 @@ describe('Test post registration route', () => {
     it('Returns 400 and names of missing fields', async () => {
       const response = await request(app).post('/user/register').send({})
       expect(response.statusCode).toBe(400)
-      expect(response.body.errorMessage).toMatch(
-        /email | password | firstName | lastName/
-      )
+      expect(response.body.errorMessage).toMatch(TEST_REGISTER_FIELDS)
     })
   })
   describe('Given password less then 6 characters', () => {
     it('Returns 400 and tells that password is less then 6 characters', async () => {
-      const response = await request(app).post('/user/register').send({
-        email: 'test@test.com',
-        password: '12345',
-        firstName: 'TestName',
-        lastName: 'TestName',
-      })
+      const response = await request(app)
+        .post('/user/register')
+        .send({
+          ...TEST_USER,
+          password: '12345',
+        })
       expect(response.statusCode).toBe(400)
-      expect(response.body.errorMessage).toMatch('password')
+      expect(response.body.errorMessage.toLowerCase()).toMatch('password')
     })
   })
   describe('Given wrong email format', () => {
@@ -41,10 +42,8 @@ describe('Test post registration route', () => {
       const response = await request(app)
         .post('/user/register')
         .send({
+          ...TEST_USER,
           email: 'test',
-          password: '123456',
-          firstName: 'TestName',
-          lastName: 'TestName',
         })
         .set('Accept', 'application/json')
       expect(response.statusCode).toBe(400)
@@ -53,15 +52,32 @@ describe('Test post registration route', () => {
   })
   describe('Given the right payload', () => {
     it('Returns 201 and return created user', async () => {
-      const payload = {
-        email: 'test@test.com',
-        password: '123456',
-        firstName: 'TestName',
-        lastName: 'TestName',
-      }
-      const response = await request(app).post('/user/register').send(payload)
+      const response = await request(app).post('/user/register').send(TEST_USER)
       expect(response.statusCode).toBe(201)
-      expect(response.body).toEqual(expect.objectContaining(payload))
+      expect(response.body).toEqual(
+        expect.objectContaining({
+          email: TEST_USER.email,
+          firstName: TEST_USER.firstName,
+          lastName: TEST_USER.lastName,
+        })
+      )
     })
+  })
+})
+
+describe('Test get user/me route', () => {
+  it('Returns 200 and return user data', async () => {
+    const token = await login()
+    const response = await request(app)
+      .get('/user/me')
+      .set('Authorization', `Bearer ${token}`)
+    expect(response.statusCode).toBe(200)
+    expect(response.body).toEqual(
+      expect.objectContaining({
+        email: TEST_USER.email,
+        firstName: TEST_USER.firstName,
+        lastName: TEST_USER.lastName,
+      })
+    )
   })
 })

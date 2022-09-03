@@ -6,6 +6,7 @@ const connectDB = async () => {
       useNewUrlParser: true,
     })
 
+    // eslint-disable-next-line no-console
     console.log('MongoDB is Connected...')
   } catch (err) {
     throw new Error(err.message)
