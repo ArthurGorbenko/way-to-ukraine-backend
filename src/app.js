@@ -17,7 +17,12 @@ if (process.env.NODE_ENV !== 'test') {
   app.use(cors())
 }
 
-app.get('/', (req, res) => res.send('Hello world!'))
+app.get('/', (req, res) =>
+  res.json({
+    message:
+      'Hello, it is homepage of the backend server for our way-to-ukraine app.',
+  })
+)
 
 // default middlewares
 app.use([express.json(), authorizeMiddleware])
