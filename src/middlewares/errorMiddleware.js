@@ -2,8 +2,7 @@ const errorMiddleware = (err, req, res, next) => {
   if (res.headersSent) {
     return next(err)
   }
-  res.status(500)
-  res.render('error', { error: err })
+  return res.json({ errorMessage: err.message }).status(500)
 }
 
 module.exports = errorMiddleware
