@@ -30,7 +30,8 @@ const deleteAchievement = asyncWrapper(async (req, res) => {
     req.params.achievementId
   )
   if (achievement) {
-    return res.status(200).send(achievement)
+    // TODO delete all media
+    return res.status(200).send({ id: achievement.id })
   }
   return res.status(404).send({ errorMessage: 'Achievement not found' })
 })
