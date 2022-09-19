@@ -1,12 +1,10 @@
 const request = require('supertest')
 const app = require('../../src/app')
 const { connectDB, dropDB, dropCollections } = require('../db-test')
-const { TEST_USER } = require('../config')
 const { login } = require('../fixtures')
 
 beforeAll(async () => {
   await connectDB()
-  await request(app).post('/user/register').send(TEST_USER)
 })
 
 afterAll(async () => {
@@ -22,7 +20,7 @@ describe('Test POST achievements', () => {
     it('Returns 200 and return achievement data', async () => {
       const token = await login()
       const response = await request(app)
-        .post('/achievements')
+        .post('/achievement')
         .send({
           body: 'test',
         })
@@ -34,3 +32,16 @@ describe('Test POST achievements', () => {
     })
   })
 })
+
+// describe('Test GET achievements', () => {
+//   describe('Given right payload', () => {
+//     it('Returns 200 and return achievement data', async () => {
+//       const token = await login()
+//       const response = await request(app)
+//         .get('/achievement')
+//         .set('Authorization', `Bearer ${token}`)
+
+//       expect(response.statusCode).toBe(200)
+//     })
+//   })
+// })

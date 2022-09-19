@@ -6,6 +6,7 @@ const connectDB = require('./config/db')
 const authRouter = require('./routes/auth')
 const userRouter = require('./routes/user')
 const mediaRouter = require('./routes/media')
+const achievementRouter = require('./routes/achievement')
 
 // middlewares
 const authorizeMiddleware = require('./middlewares/auth')
@@ -32,6 +33,7 @@ app.use([express.json(), authorizeMiddleware])
 app.use('/auth', authRouter)
 app.use('/user', userRouter)
 app.use('/medias', mediaRouter)
+app.use('/achievement', achievementRouter)
 
 app.use(errorMiddleware)
 
