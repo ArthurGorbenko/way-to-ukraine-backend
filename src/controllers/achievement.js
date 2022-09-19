@@ -4,7 +4,7 @@ const asyncWrapper = require('../middlewares/async-wrapper')
 const getAchievements = asyncWrapper(async (req, res) => {
   const achievements = await Achievement.find({})
   if (achievements) {
-    return res.status(200).send(achievements)
+    return res.status(200).send({ data: achievements })
   }
   return res.status(404).send({ errorMessage: 'Achievements not found' })
 })
@@ -22,11 +22,30 @@ const postAchievement = asyncWrapper(async (req, res) => {
   if (user) {
     return res.status(201).send(user)
   }
+  return res.status(404).send({ errorMessage: 'Achievement not found' })
 })
 
-const deleteAchievement = asyncWrapper(async (req, res) => {})
+const deleteAchievement = asyncWrapper(async (req, res) => {
+  const achievement = await Achievement.findByIdAndDelete(
+    req.params.achievementId
+  )
+  if (achievement) {
+    return res.status(200).send(achievement)
+  }
+  return res.status(404).send({ errorMessage: 'Achievement not found' })
+})
 
-const updateAchievement = asyncWrapper(async (req, res) => {})
+const updateAchievement = asyncWrapper(async (req, res) => {
+  const achievement = await Achievement.findByIdAndUpdate(
+    req.params.achievementId,
+    req.body,
+    { new: true }
+  )
+  if (achievement) {
+    return res.status(200).send(achievement)
+  }
+  return res.status(404).send({ errorMessage: 'Achievement not found' })
+})
 
 module.exports = {
   getAchievements,
