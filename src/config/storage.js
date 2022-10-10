@@ -1,5 +1,5 @@
 const multer = require('multer')
-const getExtension = require('../utils/files')
+const { getExtension } = require('../utils/files')
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
