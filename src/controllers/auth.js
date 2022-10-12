@@ -19,7 +19,8 @@ const login = asyncWrapper(async (req, res) => {
   }
 
   const token = user.createJwt()
-  return res.status(201).json({ token, user })
+  const userCleaned = user.clean()
+  return res.status(201).json({ token, user: userCleaned })
 })
 
 module.exports = { login }

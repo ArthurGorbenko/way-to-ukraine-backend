@@ -8,7 +8,8 @@ const registerUser = asyncWrapper(async (req, res) => {
     })
   }
   const user = await User.create(req.body)
-  return res.status(201).send(user)
+  const userCleaned = user.clean()
+  return res.status(201).send(userCleaned)
 })
 
 const getMe = asyncWrapper(async (req, res) => {

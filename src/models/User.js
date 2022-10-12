@@ -51,4 +51,13 @@ UserSchema.methods.comparePasswords = async function (candidatePassword) {
   return bcrypt.compare(candidatePassword, this.password)
 }
 
+UserSchema.methods.clean = function () {
+  const currentUser = this.toObject()
+  const sensitive = ['password']
+  sensitive.forEach((item) => {
+    delete currentUser[item]
+  })
+  return currentUser
+}
+
 module.exports = mongoose.model('User', UserSchema)
